@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/revisit-studies/study/v2.3.2/src/parser/GlobalConfigSchema.json",
+  "configsList": ["decision-making", "correlation"],
+  "configs": {
+    "decision-making": {
+      "path": "incentives-dm/config.json"
+    },
+    "correlation": {
+      "path": "incentives-corr/config.json"
+    }
+  }
+}
