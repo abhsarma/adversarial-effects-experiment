@@ -1,0 +1,262 @@
+{
+    "$schema": "https://raw.githubusercontent.com/revisit-studies/study/main/src/parser/StudyConfigSchema.json",
+    "studyMetadata": {
+        "title": "Decision-making under Uncertainty using Visualizations",
+        "version": "pilot",
+        "authors": ["Abhraneel Sarma"],
+        "date": "2026-02-08",
+        "description": "A simple decision-making study",
+        "organizations": ["Graz University of Technology"]
+    },
+    "uiConfig": {
+        "contactEmail": "asarma@tugraz.at",
+        "helpTextPath": "incentives-dm/assets/help.md",
+        "logoPath": "revisitAssets/revisitLogoSquare.svg",
+        "withProgressBar": true,
+        "autoDownloadStudy": false,
+        "withSidebar": true,
+        "urlParticipantIdParam": "PROLIFIC_PID",
+        "participantNameField": "introduction.prolificId"
+    },
+    "baseComponents": {
+        "training": {
+            "type": "react-component",
+            "path": "incentives-dm/assets/03-training.tsx",
+            "response": [{
+                "id": "trainingProb",
+                "prompt": "What is the probability that the temperature falls below <span id='target'></span>°F?",
+                "secondaryText": "(Please provide a number between 0 and 100, and do not add a `%` to your response)",
+                "required": true,
+                "type": "shortText"
+            }],
+            "provideFeedback": true,
+            "allowFailedTraining": true,
+            "trainingAttempts": 3,
+            "instructionLocation": "aboveStimulus"
+        },
+        "trial": {
+            "type": "react-component",
+            "response": [{
+                "id": "decision",
+                "prompt": "Based on the forecast above, would you send blankets to the affected regions?",
+                "required": true,
+                "location": "belowStimulus",
+                "type": "radio",
+                "options": ["Yes", "No"]
+            }, {
+                "id": "prolificId",
+                "prompt": "",
+                "required": false,
+                "hidden": true,
+                "paramCapture": "PROLIFIC_PID",
+                "type": "reactive"
+            }],
+            "path": "incentives-dm/assets/04-trial.tsx",
+            "instructionLocation": "aboveStimulus"
+        }
+    },
+    "components": {
+        "introduction": {
+            "type": "markdown",
+            "path": "incentives-dm/assets/00-introduction.md",
+            "response": [{
+                "id": "prolificId",
+                "prompt": "Prolific ID:",
+                "required": false,
+                "location": "belowStimulus",
+                "type": "shortText",
+				"paramCapture": "PROLIFIC_PID",
+                "placeholder": "Prolific ID"
+            }]
+        },
+        "consent": {
+            "type": "markdown",
+            "path": "incentives-dm/assets/01-consent.md",
+            "previousButton": true,
+            "previousButtonText": "Back",
+            "response": [
+                {
+                    "id": "consentApproval",
+                    "prompt": "By clicking on 'Yes' below, you indicate that you have understood the Information Sheet and agree to participate in this study.",
+                    "type": "radio",
+                    "options": ["Yes", "No"]
+                }
+            ]
+        },
+        "tutorial-ci": {
+            "type": "markdown",
+            "path": "incentives-dm/assets/02-tutorial-ci.md",
+            "response": []
+        },
+        "tutorial-dens": {
+            "type": "markdown",
+            "path": "incentives-dm/assets/02-tutorial-dens.md",
+            "response": []
+        },
+        "training-1-ci": 
+            {"baseComponent": "training", "parameters": {"index": 1, "vis": "ci", "target": 65}, "correctAnswer": [{"id": "trainingProb", "answer": 10}]},
+        "training-2-ci": 
+            {"baseComponent": "training", "parameters": {"index": 2, "vis": "ci", "target": 60}, "correctAnswer": [{"id": "trainingProb", "answer": 25}]},
+        "training-3-ci": 
+            {"baseComponent": "training", "parameters": {"index": 3, "vis": "ci", "target": 69}, "correctAnswer": [{"id": "trainingProb", "answer": 60}]},
+        "training-4-ci": 
+            {"baseComponent": "training", "parameters": {"index": 4, "vis": "ci", "target": 74}, "correctAnswer": [{"id": "trainingProb", "answer": 95}]},
+        "training-1-dens": 
+            {"baseComponent": "training", "parameters": {"index": 1, "vis": "dens", "target": 65}, "correctAnswer": [{"id": "trainingProb", "answer": 10}]},
+        "training-2-dens": 
+            {"baseComponent": "training", "parameters": {"index": 2, "vis": "dens", "target": 60}, "correctAnswer": [{"id": "trainingProb", "answer": 25}]},
+        "training-3-dens": 
+            {"baseComponent": "training", "parameters": {"index": 3, "vis": "dens", "target": 69}, "correctAnswer": [{"id": "trainingProb", "answer": 60}]},
+        "training-4-dens": 
+            {"baseComponent": "training", "parameters": {"index": 4, "vis": "dens", "target": 74}, "correctAnswer": [{"id": "trainingProb", "answer": 95}]},
+        "trial-1-ci": {"baseComponent": "trial", "parameters": {"index": 1, "vis": "ci"}},
+        "trial-2-ci": {"baseComponent": "trial", "parameters": {"index": 2, "vis": "ci"}},
+        "trial-3-ci": {"baseComponent": "trial", "parameters": {"index": 3, "vis": "ci"}},
+        "trial-4-ci": {"baseComponent": "trial", "parameters": {"index": 4, "vis": "ci"}},
+        "trial-5-ci": {"baseComponent": "trial", "parameters": {"index": 5, "vis": "ci"}},
+        "trial-6-ci": {"baseComponent": "trial", "parameters": {"index": 6, "vis": "ci"}},
+        "trial-7-ci": {"baseComponent": "trial", "parameters": {"index": 7, "vis": "ci"}},
+        "trial-8-ci": {"baseComponent": "trial", "parameters": {"index": 8, "vis": "ci"}},
+        "trial-9-ci": {"baseComponent": "trial", "parameters": {"index": 9, "vis": "ci"}},
+        "trial-10-ci": {"baseComponent": "trial", "parameters": {"index": 10, "vis": "ci"}},
+        "trial-11-ci": {"baseComponent": "trial", "parameters": {"index": 11, "vis": "ci"}},
+        "trial-12-ci": {"baseComponent": "trial", "parameters": {"index": 12, "vis": "ci"}},
+        "trial-13-ci": {"baseComponent": "trial", "parameters": {"index": 13, "vis": "ci"}},
+        "trial-14-ci": {"baseComponent": "trial", "parameters": {"index": 14, "vis": "ci"}},
+        "trial-15-ci": {"baseComponent": "trial", "parameters": {"index": 15, "vis": "ci"}},
+        "trial-16-ci": {"baseComponent": "trial", "parameters": {"index": 16, "vis": "ci"}},
+        "trial-17-ci": {"baseComponent": "trial", "parameters": {"index": 17, "vis": "ci"}},
+        "trial-18-ci": {"baseComponent": "trial", "parameters": {"index": 18, "vis": "ci"}},
+        "trial-1-dens": {"baseComponent": "trial", "parameters": {"index": 1, "vis": "dens"}},
+        "trial-2-dens": {"baseComponent": "trial", "parameters": {"index": 2, "vis": "dens"}},
+        "trial-3-dens": {"baseComponent": "trial", "parameters": {"index": 3, "vis": "dens"}},
+        "trial-4-dens": {"baseComponent": "trial", "parameters": {"index": 4, "vis": "dens"}},
+        "trial-5-dens": {"baseComponent": "trial", "parameters": {"index": 5, "vis": "dens"}},
+        "trial-6-dens": {"baseComponent": "trial", "parameters": {"index": 6, "vis": "dens"}},
+        "trial-7-dens": {"baseComponent": "trial", "parameters": {"index": 7, "vis": "dens"}},
+        "trial-8-dens": {"baseComponent": "trial", "parameters": {"index": 8, "vis": "dens"}},
+        "trial-9-dens": {"baseComponent": "trial", "parameters": {"index": 9, "vis": "dens"}},
+        "trial-10-dens": {"baseComponent": "trial", "parameters": {"index": 10, "vis": "dens"}},
+        "trial-11-dens": {"baseComponent": "trial", "parameters": {"index": 11, "vis": "dens"}},
+        "trial-12-dens": {"baseComponent": "trial", "parameters": {"index": 12, "vis": "dens"}},
+        "trial-13-dens": {"baseComponent": "trial", "parameters": {"index": 13, "vis": "dens"}},
+        "trial-14-dens": {"baseComponent": "trial", "parameters": {"index": 14, "vis": "dens"}},
+        "trial-15-dens": {"baseComponent": "trial", "parameters": {"index": 15, "vis": "dens"}},
+        "trial-16-dens": {"baseComponent": "trial", "parameters": {"index": 16, "vis": "dens"}},
+        "trial-17-dens": {"baseComponent": "trial", "parameters": {"index": 17, "vis": "dens"}},
+        "trial-18-dens": {"baseComponent": "trial", "parameters": {"index": 18, "vis": "dens"}},
+		"qual-q": {
+            "type": "react-component",
+            "response": [{
+				"id": "qual-strategy",
+                "prompt": "Please describe the strategy that you used in deciding whether or not to send blankets",
+                "required": true,
+                "location": "belowStimulus",
+                "type": "longText"
+            }, {
+				"id": "qual-incentives-history",
+                "prompt": "What has been your experience with receiving performance based bonuses in surveys",
+                "required": true,
+                "location": "belowStimulus",
+                "type": "longText"
+            }, {
+				"id": "qual-incentive-effect",
+                "prompt": "<span class='insert-text'></span>",
+                "required": true,
+                "location": "belowStimulus",
+                "type": "longText"
+            }, {
+                "id": "prolificId",
+                "prompt": "",
+                "required": false,
+                "hidden": true,
+                "paramCapture": "PROLIFIC_PID",
+                "type": "reactive"
+            }],
+            "path": "incentives-dm/assets/05-qual.tsx",
+            "instructionLocation": "aboveStimulus"
+        }
+    },
+    "sequence": {
+        "order": "fixed",
+        "components": [
+            "introduction",
+            {
+                "id": "vis-ci",
+                "conditional": true,
+                "order": "fixed",
+                "components": [
+                    "tutorial-ci",                     
+                    {   
+                        "id": "training-ci",
+                        "order": "random",
+                        "components": ["training-1-ci", "training-2-ci", "training-3-ci", "training-4-ci"]
+                    }
+                ]
+            },
+            {
+                "id": "vis-dens",
+                "conditional": true,
+                "order": "fixed",
+                "components": [
+                    "tutorial-dens",
+                    {
+                        "id": "training-dens",
+                        "order": "random",
+                        "components": ["training-1-dens", "training-2-dens", "training-3-dens", "training-4-dens"]
+                    }
+                ]
+            },
+            {
+                "id": "vis-ci",
+                "conditional": true,
+                "components": [
+                    "trial-1-ci", 
+                    "trial-2-ci", 
+                    "trial-3-ci", 
+                    "trial-4-ci", 
+                    "trial-5-ci", 
+                    "trial-6-ci", 
+                    "trial-7-ci", 
+                    "trial-8-ci", 
+                    "trial-9-ci",
+                    "trial-10-ci", 
+                    "trial-11-ci", 
+                    "trial-12-ci", 
+                    "trial-13-ci", 
+                    "trial-14-ci", 
+                    "trial-15-ci", 
+                    "trial-16-ci", 
+                    "trial-17-ci", 
+                    "trial-18-ci"
+                ],
+                "order": "random"
+            }, {
+                "id": "vis-dens",
+                "conditional": true,
+                "components": [
+                    "trial-1-dens", 
+                    "trial-2-dens", 
+                    "trial-3-dens", 
+                    "trial-4-dens", 
+                    "trial-5-dens", 
+                    "trial-6-dens", 
+                    "trial-7-dens", 
+                    "trial-8-dens", 
+                    "trial-9-dens",
+                    "trial-10-dens", 
+                    "trial-11-dens", 
+                    "trial-12-dens", 
+                    "trial-13-dens", 
+                    "trial-14-dens", 
+                    "trial-15-dens", 
+                    "trial-16-dens", 
+                    "trial-17-dens", 
+                    "trial-18-dens"
+                ],
+                "order": "random"
+            },
+			"qual-q"
+        ]
+    }
+}

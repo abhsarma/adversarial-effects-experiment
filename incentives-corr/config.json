@@ -1,0 +1,102 @@
+{
+    "$schema": "https://raw.githubusercontent.com/revisit-studies/study/main/src/parser/StudyConfigSchema.json",
+    "studyMetadata": {
+        "title": "Correlation Judgements using Visualization",
+        "version": "pilot",
+        "authors": [
+            "Abhraneel Sarma"
+        ],
+        "date": "2026-02-08",
+        "description": "A simple correlation judgement study",
+        "organizations": [
+            "Graz University of Technology"
+        ]
+    },
+    "uiConfig": {
+        "contactEmail": "asarma@tugraz.at",
+        "helpTextPath": "incentives-corr/assets/help.md",
+        "logoPath": "revisitAssets/revisitLogoSquare.svg",
+        "withProgressBar": true,
+        "autoDownloadStudy": false,
+        "withSidebar": true,
+        "urlParticipantIdParam": "PROLIFIC_PID"
+    },
+    "baseComponents": {
+        "task": {
+            "type": "react-component",
+            "response": [{
+                "id": "practiceResponse",
+                "prompt": "Please select the visualization that appears to have a larger correlation.",
+                "secondaryText": "You can either click the buttons (A or B) or use the‚ left and right keys.",
+                "hidden": false,
+                "required": true,
+                "type": "reactive",
+                "location": "aboveStimulus"
+            }],
+            "path": "incentives-corr/assets/task.tsx",
+            "instructionLocation": "aboveStimulus"
+        }
+    },
+    "components": {
+        "introduction": {
+            "type": "markdown",
+            "path": "incentives-corr/assets/00-introduction.md",
+            "response": []
+        },
+        "consent": {
+            "type": "markdown",
+            "path": "incentives-corr/assets/01-consent.md",
+            "previousButton": true,
+            "previousButtonText": "Back",
+            "response": [
+                {
+                    "id": "consentApproval",
+                    "prompt": "By clicking on 'Yes' below, you indicate that you have understood the Information Sheet and agree to participate in this study.",
+                    "type": "radio",
+                    "options": ["Yes", "No"]
+                }
+            ]
+        },
+        "training-1": {"baseComponent": "task", "parameters": {"r1": 0.3, "r2": 0.7}},
+        "training-2": {"baseComponent": "task", "parameters": {"r1": 0.9, "r2": 0.6}},
+        "training-3": {"baseComponent": "task", "parameters": {"r1": 0.6, "r2": 0.3}},
+        "training-4": {"baseComponent": "task", "parameters": {"r1": 0.6, "r2": 0.9}},
+        "training-5": {"baseComponent": "task", "parameters": {"r1": 0.3, "r2": 0.1}},
+        "training-6": {"baseComponent": "task", "parameters": {"r1": 0.5, "r2": 0.3}},
+        "training-7": {"baseComponent": "task", "parameters": {"r1": 0.9, "r2": 0.8}},
+        "training-8": {"baseComponent": "task", "parameters": {"r1": 0.6, "r2": 0.7}},
+        "training-9": {"baseComponent": "task", "parameters": {"r1": 0.99, "r2": 0.9}}
+    },
+    "sequence": {
+        "order": "fixed",
+        "components": [
+            "introduction",
+            {   
+                "order": "fixed",
+                "components": ["consent"],
+                "skip": [{
+                    "name": "consent",
+                    "check": "response",
+                    "responseId": "consentApproval",
+                    "value": "No",
+                    "comparison": "equal",
+                    "to": "end"
+                }]
+            },
+            {
+                "order": "fixed",
+                "components": [
+                    "training-1",
+                    "training-2",
+                    "training-3",
+                    "training-4",
+                    "training-5",
+                    "training-6",
+                    "training-7",
+                    "training-8",
+                    "training-9"
+                ]
+            }              
+        ]
+    }
+}
