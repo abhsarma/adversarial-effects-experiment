@@ -13,6 +13,7 @@ function DisplayTrial({ parameters }: StimulusParams<any>) {
     useEffect(() => {
         setTimeout(() => {
             d3.select("#target").html(target);
+            d3.select("div#trainingProb").on("click", () => { d3.select("#target").html(target); });
         }, 100)
     }, []);
 

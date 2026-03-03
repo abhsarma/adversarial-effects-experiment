@@ -65,11 +65,13 @@ function DisplayTrial({ parameters, setAnswer, answers }: StimulusParams<{index:
     }, [answers, index]);
 
     const current = useMemo(() => {
-            return Object.entries(answers).find(([key, _]) => key.split("_")[0] === `trial-${index}`)?.[1];
+            return Object.entries(answers).find(([key, _]) => key.split("_")[0] === `trial-${index}-${vis}`)?.[1];
         }, [answers, index]);
 
     const trialIndex = useMemo(() => {
-        return current ? +current.trialOrder - 4 : 1; // 4 is the number of pre-trial steps
+        // 7 is the number of pre-trial steps; index starts at 0 
+        // to verify: console.log(Object.entries(answers).map(d => d[0]));
+        return current ? +current.trialOrder - 6 : 1;
     }, [answers, index]);
 
     const budget = useMemo(() => {
