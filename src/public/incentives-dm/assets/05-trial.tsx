@@ -1,0 +1,183 @@
+import * as d3 from 'd3';
+import {useCallback, useEffect, useMemo, useState} from 'react';
+import { StoredAnswer, StimulusParams } from '../../../store/types';
+
+function boxMullerTransform(seed: number) {
+    const rand = mulberry32(seed);
+
+    const u1 = rand();
+    const u2 = rand();
+
+    // const u1 = Math.random();
+    // const u2 = Math.random();
+
+    const z = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+
+    return z;
+}
+
+function rnorm(seed: number, mean: number, stddev: number) {
+    const z = boxMullerTransform(seed);
+    return z * stddev + mean;
+}
+
+// Source - https://stackoverflow.com/a/47593316
+// Posted by bryc, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-02-09, License - CC BY-SA 4.0
+function cyrb128(str: string) {
+    let h1 = 1779033703; let h2 = 3144134277;
+    let h3 = 1013904242; let
+    h4 = 2773480762;
+    for (let i = 0, k; i < str.length; i++) {
+        k = str.charCodeAt(i);
+        h1 = h2 ^ Math.imul(h1 ^ k, 597399067);
+        h2 = h3 ^ Math.imul(h2 ^ k, 2869860233);
+        h3 = h4 ^ Math.imul(h3 ^ k, 951274213);
+        h4 = h1 ^ Math.imul(h4 ^ k, 2716044179);
+    }
+    h1 = Math.imul(h3 ^ (h1 >>> 18), 597399067);
+    h2 = Math.imul(h4 ^ (h2 >>> 22), 2869860233);
+    h3 = Math.imul(h1 ^ (h3 >>> 17), 951274213);
+    h4 = Math.imul(h2 ^ (h4 >>> 19), 2716044179);
+    h1 ^= (h2 ^ h3 ^ h4), h2 ^= h1, h3 ^= h1, h4 ^= h1;
+    return [h1 >>> 0, h2 >>> 0, h3 >>> 0, h4 >>> 0];
+}
+
+function mulberry32(a: number) {
+    return function () {
+        let t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+}
+
+// This React component renders a bar chart with 5 bars and 2 of them highlighted by dots.
+// The data value comes from the config file and pass to this component by parameters.
+function DisplayTrial({ parameters, setAnswer, answers }: StimulusParams<{index: number, vis: string}>) {
+    const { index, vis } = parameters;
+    const [forecast, setForecast] = useState<number>();
+
+    const imgURL = `../incentives-dm/assets/img/trial/${vis}-trial-${index}.jpg`;
+
+    const prolificId = useMemo(() => {
+        return Object.entries(answers)[0][1].answer.prolificId;
+    }, [answers, index]);
+
+    const current = useMemo(() => {
+            return Object.entries(answers).find(([key, _]) => key.split("_")[0] === `trial-${index}-${vis}`)?.[1];
+        }, [answers, index]);
+
+    const trialIndex = useMemo(() => {
+        if (current) {
+            // gets the number of pre-trial pages by matching on first instance of trials in the `key` of the answers object
+            // so that the correct trial index is shown to participants
+            const intro_page_count = Object.entries(answers).find(([key, _]) => key.split("_")[0].includes("trial"))?.[0].split("_")[1];
+            return +current.trialOrder - Number(intro_page_count) + 1
+        } else {
+            return 1
+        }
+
+        // console.log(current);
+        // return current ? +current.trialOrder - 6 : 1;
+    }, [answers, index]);
+
+    const budget = useMemo(() => {
+        const previous = current ? Object.values(answers).find((val) => +val.trialOrder === +current.trialOrder - 1) : null;
+        const start = 18000;
+
+        if (!previous?.answer.simulatedResult) {
+            return start;
+        }
+
+        // @ts-ignore
+        return previous.answer.simulatedResult.startingBudget - (previous.answer.decision === 'Yes' ? 1000 : previous.answer.simulatedResult.simulated < 32 ? 5000 : 0);
+    }, [answers, index]);
+
+    useEffect(() => {
+        const meansList = [37.38, 37.91, 34.40, 34.98, 34.96, 33.88, 32.94, 32.00, 31.28, 37.22, 37.34, 35.12, 34.69, 34.31, 32.91, 32.77, 32.00, 31.11];
+        const sdList = [3.1,  1.9,  2.8,  2.4,  3.3,  3.8,  2.8,  3.7,  3.4,  2.0,  2.5,  3.8,  1.9,  2.0,  3.3,  2.1,  4.1,  2.6];
+        const tempMean = meansList[index - 1];
+        const tempSd = sdList[index - 1];
+        const seed = cyrb128(prolificId + "_" + {index}); // change to prolific ID
+        const temp = rnorm(seed[0], tempMean, tempSd); // simulate rnorm(mean)
+
+        if (!forecast) {
+            setForecast(temp);
+            setAnswer({
+                status: true,
+                answers: {
+                    // @ts-ignore
+                    simulatedResult: { seed: seed[0], tempMean: tempMean, simulated: temp, startingBudget: budget },
+                },
+            });
+        } else {
+            setAnswer({
+                status: true,
+                answers: {
+                // @ts-ignore
+                simulatedResult: { seed: seed[0], tempMean: tempMean, simulated: forecast, startingBudget: budget },
+                },
+            });
+        }
+    }, [index, setAnswer, budget, forecast]);
+
+  return (
+        <>
+            <div className="chart-wrapper">
+                <h3>
+                    Trial number:
+                    <span id="task-index"> {trialIndex}</span>
+                    /18
+                </h3>
+                <p>
+                    Budget Remaining: $
+                    <span id="remaining-budget">{budget}</span>
+                </p>
+                <div className="img-container">
+                    <img src={imgURL} width="90%" />
+                </div>
+            </div>
+        </>
+    );
+}
+
+export default DisplayTrial;
+
+{
+    /* <div className='help-wrapper'>
+        <div className="help-button">
+            <button onclick="">Show Help</button>
+        </div>
+        <div className="help-content">
+            <h2>Task details</h2>
+            <h3>Scenario</h3>
+            <p>
+                Assume that you work for a road maintenance company that is contracted to treat the roads in a town with salt brine to prevent icing when the temperature goes below freezing (0°C or 32°F). Applying salt brine to the roads is costly for your company; in addition, it also is detrimental to the environment as it can pollute groundwater and kill roadside vegetation. However, not salting the roads can cause significant accidents during freezing temperatures which are borne by your company.<br/>
+            </p>
+
+
+            <h3>Task</h3>
+            <p>
+                Your job is to salt the roads in the town when temperatures fall below 0°C (32°F), which will help them withstand the cold. In the experiment, you will be shown a night-time temperature forecast (visualised using the representation that one you had encountered on the previous pages), and you will have to decide whether you will salt the roads based on the forecast.<br/>
+            </p>
+
+
+            <h3>Budget Constraints</h3>
+            <p>
+                You have a budget for 18 days of $18,000. Salting all the roads in the town costs $1,000 (per night). If you fail to salt the roads and the temperature drops below 0°C (32°F), it will cost $5,000 from your budget.<br/>
+            </p>
+
+            <h3>Compensation</h3>
+            <p>
+                Please respond to the best of your ability. You are **guaranteed to receive $1.5** regardless of how you perform in the trials. In addition, you will **receive an extra $0.5 (50 cents) for every $1,000 that you have in your budget** at the end of the 18 days.<br/>
+            </p>
+
+
+            <h3>Note</h3>
+            <p>
+                In the trials, the temperatures will be shown on the Celsius (°C) scale. If you are more familiar with the Fahrenheit (°F) scale, please recall that 0°C equals 32°F, and a change of 1°C is equivalent to a change of 1.8°F.
+            </p>
+        </div>
+    </div> */
+}
