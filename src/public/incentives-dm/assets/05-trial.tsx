@@ -59,7 +59,7 @@ function DisplayTrial({ parameters, setAnswer, answers }: StimulusParams<{index:
     const [forecast, setForecast] = useState<number>();
 
     const attentionCheckLoc = Object.keys(answers).map(d => d.split("_")[0].split("-")[0] === "attnCheck");
-    const attentionCheckIndices: number[] = attentionCheckLoc.reduce((out, bool, idx) => bool ? out.concat(idx) : out, [])
+    const attentionCheckIndices: number[] = attentionCheckLoc.reduce((out: number[], bool, idx) => bool ? out.concat(idx) : out, [])
 
     let imgURL = ''
     if (index < 0) {
