@@ -18,7 +18,7 @@ const chartSettings = {
 function DisplayTrial({ parameters, setAnswer, answers }: StimulusParams<{inc: string}>) {
     const { inc } = parameters;
 
-    const incAmount = inc == "inc-sm" ? "2.5" : "1.5";
+    const incAmount = inc == "inc-sm" ? "3" : "2";
 
     const current = useMemo(() => {
             // console.log(Object.entries(answers).find(([key, _]) => key.split("_")[0].includes("qual-q"))); // .find(([key, _]) => key.split("_")[0].includes("qual-q")))

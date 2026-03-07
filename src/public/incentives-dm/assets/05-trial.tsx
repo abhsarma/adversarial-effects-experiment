@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 import {useCallback, useEffect, useMemo, useState} from 'react';
 import { StoredAnswer, StimulusParams } from '../../../store/types';
 
-function boxMullerTransform(seed: number) {
+function rnorm(seed: number) {
     const rand = mulberry32(seed);
 
     const u1 = rand();
@@ -14,11 +14,6 @@ function boxMullerTransform(seed: number) {
     const z = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
 
     return z;
-}
-
-function rnorm(seed: number, mean: number, stddev: number) {
-    const z = boxMullerTransform(seed);
-    return z * stddev + mean;
 }
 
 // Source - https://stackoverflow.com/a/47593316
@@ -85,11 +80,20 @@ function DisplayTrial({ parameters, setAnswer, answers }: StimulusParams<{index:
         if (current) {
             // gets the number of pre-trial pages by matching on first instance of trials in the `key` of the answers object
             // so that the correct trial index is shown to participants
-            const intro_page_count = Object.entries(answers).find(([key, _]) => key.split("_")[0].includes("trial"))?.[0].split("_")[1];
-            const adjust = +current.trialOrder > attentionCheckIndices[1] ? 2 : +current.trialOrder > attentionCheckIndices[0] ? 1 : 0;
+            const intro_page_count = Number(Object.entries(answers).find(([key, _]) => key.split("_")[0].includes("trial"))?.[0].split("_")[1]);
+            let adjust;
             
-
-            return +current.trialOrder - Number(intro_page_count) + 1 - adjust;
+            // if first two trials are attention check 
+            if (attentionCheckIndices[1] == (intro_page_count - 1)) {
+                adjust = 0;
+            } else if (attentionCheckIndices[0] == (intro_page_count - 1)) {
+                adjust = +current.trialOrder > attentionCheckIndices[1] ? 1 : 0;
+            } else {
+                adjust = +current.trialOrder > attentionCheckIndices[1] ? 2 : +current.trialOrder > attentionCheckIndices[0] ? 1 : 0;
+            }
+            
+            const trialIndex = +current.trialOrder - intro_page_count + 1 - adjust;
+            return trialIndex < 1 ? 1 : trialIndex;
         } else {
             return 1
         }
@@ -104,7 +108,13 @@ function DisplayTrial({ parameters, setAnswer, answers }: StimulusParams<{index:
 
         if (attentionCheckIndices.includes(previousTrialOrder)) {
             // substract '2' to get the trial before last
-            previous = current ? Object.values(answers).find((val) => +val.trialOrder === +current.trialOrder - 2) : null;           
+            previous = current ? Object.values(answers).find((val) => +val.trialOrder === +current.trialOrder - 2) : null;
+            const newPreviousTrialOrder = previous ? +previous.trialOrder : NaN;
+
+            // check again since the two attention checks can be back to back    
+            if (attentionCheckIndices.includes(newPreviousTrialOrder)) {
+                previous = current ? Object.values(answers).find((val) => +val.trialOrder === +current.trialOrder - 3) : null;
+            }
         }
 
         if (!previous?.answer.simulatedResult) {
@@ -145,7 +155,10 @@ function DisplayTrial({ parameters, setAnswer, answers }: StimulusParams<{index:
         const tempMean = meansList[index - 1];
         const tempSd = sdList[index - 1];
         const seed = cyrb128(prolificId + "_" + index);
-        const temp = index > 0 ? rnorm(seed[0], tempMean, tempSd) : -11; // simulate rnorm(mean)
+        const z = index > 0 ? rnorm(seed[0]) : -11; // simulate rnorm(mean)
+        const temp = z * tempSd + tempMean
+
+        console.log(tempMean, tempSd, temp, z);
 
         if (index > 0) {
             if (!forecast) {
