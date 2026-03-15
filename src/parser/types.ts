@@ -228,6 +228,8 @@ uiConfig:{
   "autoDownloadStudy": true
   "autoDownloadTime": 5000,
   "studyEndMsg": "Thank you for completing this study. You're the best!",
+  "autoRedirectURL": "https://app.prolific.com/submissions/complete?cc=abc123",
+  "autoRedirectDelay": 10000
   "withSidebar": true,
   "windowEventDebounceTime": 500,
   "urlParticipantIdParam": "PROLIFIC_ID",
@@ -294,6 +296,10 @@ export interface UIConfig {
   windowEventDebounceTime?: number;
   /** The message to display when the study ends. */
   studyEndMsg?: string;
+  /** The URL which participants will be auto-redirected to after a timeout of n s */
+  autoRedirectURL?: string;
+  /** The duration after which participants will auto-redirected to */
+  autoRedirectDelay?: number;
   /** Controls whether the study data is automatically downloaded at the end of the study. */
   autoDownloadStudy?: boolean;
   /** The time in milliseconds to wait before automatically downloading the study data. */

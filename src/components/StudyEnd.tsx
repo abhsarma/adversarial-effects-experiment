@@ -146,15 +146,32 @@ export function StudyEnd() {
   }, [storageEngine, studyId]);
 
   const processedStudyEndMsg = useMemo(() => {
-    const { studyEndMsg, urlParticipantIdParam } = studyConfig.uiConfig;
+    const { studyEndMsg, urlParticipantIdParam, autoRedirectURL, autoRedirectDelay } = studyConfig.uiConfig;
+
+    let redirectText = '';
+    if (autoRedirectURL) {
+      redirectText = autoRedirectDelay ? 
+        `<br/>You will be automatically redirected to Prolific in ${autoRedirectDelay/1000}s.` :
+        `<br/>You will be automatically redirected to Prolific in 10s.` // default value
+    }
 
     if (!urlParticipantIdParam || !studyEndMsg?.includes('{PARTICIPANT_ID}')) {
-      return studyEndMsg;
+      return studyEndMsg?.concat(" ").concat(redirectText);
     }
 
     // return the study end message with the participant ID
-    return studyEndMsg.replace(/\{PARTICIPANT_ID\}/g, () => participantId);
+    return studyEndMsg.replace(/\{PARTICIPANT_ID\}/g, () => participantId).concat(" ").concat(redirectText);
   }, [studyConfig, participantId]);
+
+  useEffect(() => {
+    const { autoRedirectURL, autoRedirectDelay } = studyConfig.uiConfig;
+
+    if (autoRedirectURL) {
+      setTimeout(() => {
+        window.location.replace(autoRedirectURL);
+      }, autoRedirectDelay ? autoRedirectDelay : 10000)
+    }
+  }, [completed]);
 
   return (
     <Center style={{ height: '100%' }}>
