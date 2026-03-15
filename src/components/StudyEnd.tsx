@@ -146,21 +146,21 @@ export function StudyEnd() {
   }, [storageEngine, studyId]);
 
   const processedStudyEndMsg = useMemo(() => {
-    const { studyEndMsg, urlParticipantIdParam, autoRedirectURL, autoRedirectDelay } = studyConfig.uiConfig;
+    const { studyEndMsg, urlParticipantIdParam } = studyConfig.uiConfig;
 
-    let redirectText = '';
-    if (autoRedirectURL) {
-      redirectText = autoRedirectDelay ? 
-        `<br/>You will be automatically redirected to Prolific in ${autoRedirectDelay/1000}s.` :
-        `<br/>You will be automatically redirected to Prolific in 10s.` // default value
-    }
+    // let redirectText = '';
+    // if (autoRedirectURL) {
+    //   redirectText = autoRedirectDelay ? 
+    //     `<br/>You will be automatically redirected to Prolific in ${autoRedirectDelay/1000}s.` :
+    //     `<br/>You will be automatically redirected to Prolific in 10s.` // default value
+    // }
 
     if (!urlParticipantIdParam || !studyEndMsg?.includes('{PARTICIPANT_ID}')) {
-      return studyEndMsg?.concat(" ").concat(redirectText);
+      return studyEndMsg;
     }
 
     // return the study end message with the participant ID
-    return studyEndMsg.replace(/\{PARTICIPANT_ID\}/g, () => participantId).concat(" ").concat(redirectText);
+    return studyEndMsg.replace(/\{PARTICIPANT_ID\}/g, () => participantId);
   }, [studyConfig, participantId]);
 
   useEffect(() => {
