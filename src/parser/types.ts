@@ -229,7 +229,7 @@ uiConfig:{
   "autoDownloadTime": 5000,
   "studyEndMsg": "Thank you for completing this study. You're the best!",
   "autoRedirectURL": "https://app.prolific.com/submissions/complete?cc=abc123",
-  "autoRedirectDelay": 10000
+  "autoRedirectDelay": 10000,
   "withSidebar": true,
   "windowEventDebounceTime": 500,
   "urlParticipantIdParam": "PROLIFIC_ID",
