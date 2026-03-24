@@ -17,8 +17,8 @@
         "withSidebar": true,        
         "urlParticipantIdParam": "PROLIFIC_PID",
         "participantNameField": "introduction.prolificId",
-        "studyEndMsg": "Thank you for completing the study! Please wait while we automatically redirect you to Prolific. Or you can click on this [link](https://app.prolific.com/submissions/complete?cc=CXPLUZ0C)",
-        "autoRedirectURL": "https://app.prolific.com/submissions/complete?cc=CXPLUZ0C",
+        "studyEndMsg": "Thank you for completing the study! Please wait while we automatically redirect you to Prolific. Or you can click on this [link](https://app.prolific.com/submissions/complete?cc=C1PEMLO4)",
+        "autoRedirectURL": "https://app.prolific.com/submissions/complete?cc=C1PEMLO4",
         "autoRedirectDelay": 10000
     },
     "baseComponents": {
@@ -276,6 +276,20 @@
         "test-63-scatter":{"baseComponent":"test","parameters":{"taskid":"test","index":63,"vis":"scatter","r1":0.7,"r2":0.88}},
         "test-64-scatter":{"baseComponent":"test","parameters":{"taskid":"test","index":64,"vis":"scatter","r1":0.7,"r2":0.92}},
         "test-65-scatter":{"baseComponent":"test","parameters":{"taskid":"test","index":65,"vis":"scatter","r1":0.7,"r2":0.96}},
+
+        "attnCheck-1-pcp": {"baseComponent": "test", "parameters": {"taskid":"attention","index": 66, "vis": "pcp","r1":0.01,"r2":0.99}},
+        "attnCheck-2-pcp": {"baseComponent": "test", "parameters": {"taskid":"attention","index": 67, "vis": "pcp","r1":0.01,"r2":0.99}},
+        "attnCheck-3-pcp": {"baseComponent": "test", "parameters": {"taskid":"attention","index": 68, "vis": "pcp","r1":0.01,"r2":0.99}},
+        "attnCheck-4-pcp": {"baseComponent": "test", "parameters": {"taskid":"attention","index": 69, "vis": "pcp","r1":0.01,"r2":0.99}},
+        "attnCheck-5-pcp": {"baseComponent": "test", "parameters": {"taskid":"attention","index": 70, "vis": "pcp","r1":0.01,"r2":0.99}},
+
+
+        "attnCheck-1-scatter": {"baseComponent": "test", "parameters": {"taskid":"attention","index": 66, "vis": "scatter","r1":0.01,"r2":0.99}},
+        "attnCheck-2-scatter": {"baseComponent": "test", "parameters": {"taskid":"attention","index": 67, "vis": "scatter","r1":0.01,"r2":0.99}},
+        "attnCheck-3-scatter": {"baseComponent": "test", "parameters": {"taskid":"attention","index": 68, "vis": "scatter","r1":0.01,"r2":0.99}},
+        "attnCheck-4-scatter": {"baseComponent": "test", "parameters": {"taskid":"attention","index": 69, "vis": "scatter","r1":0.01,"r2":0.99}},
+        "attnCheck-5-scatter": {"baseComponent": "test", "parameters": {"taskid":"attention","index": 70, "vis": "scatter","r1":0.01,"r2":0.99}},
+
         "qual-q-base": {
             "baseComponent": "summary", 
             "parameters": {"inc": "base"},
@@ -295,7 +309,7 @@
             }, {
                 "id": "qual-incentive-freq",
                 "prompt": "How often do you encounter surveys with performance-based bonuses?",
-                "secondaryText": "Studies evaluating visualization, such as this one, sometimes include performance-based bonuses (for example, instead of a guaranteed amount of $2.5, you would have been paid a guaranteed amount of $1.25, and awarded a bonus of $0.05 for every correct response).",
+                "secondaryText": "Studies evaluating visualization, such as this one, sometimes include performance-based bonuses (for example, instead of a guaranteed amount of $3, you would have been paid a guaranteed amount of $1.25, and awarded a bonus of $0.05 for every correct response).",
                 "required": true,
                 "location": "belowStimulus",
                 "type": "likert",
@@ -312,7 +326,7 @@
                 "type": "longText"
             }, {
                 "id": "qual-incentive-effect",
-                "prompt": "If you would have been paid a guaranteed amount of $1.25 and awarded a bonus of $0.05 for every correct response (instead of the guaranteed amount of $2.5), how do you think your performance would have changed?",
+                "prompt": "If you would have been paid a guaranteed amount of $1.25 and awarded a bonus of $0.05 for every correct response (instead of the guaranteed amount of $3), how do you think your performance would have changed?",
                 "required": true,
                 "location": "belowStimulus",
                 "type": "longText"
@@ -353,7 +367,7 @@
                 "type": "longText"
             }, {
                 "id": "qual-incentive-effect",
-                "prompt": "If you were given a guaranteed amount of $2.5 (instead of the current reward structure——guaranteed amount of $1.25 and bonus of $0.05 for every correct response that you received), how do you think your performance would have changed?",
+                "prompt": "If you were given a guaranteed amount of $3 (instead of the current reward structure——guaranteed amount of $1.25 and bonus of $0.05 for every correct response that you received), how do you think your performance would have changed?",
                 "required": true,
                 "location": "belowStimulus",
                 "type": "longText"
@@ -411,12 +425,26 @@
                 "id": "pcp",
                 "order": "random",
                 "conditional": true,
-                "components": ["test-1-pcp", "test-2-pcp", "test-3-pcp", "test-4-pcp", "test-5-pcp", "test-6-pcp", "test-7-pcp", "test-8-pcp", "test-9-pcp", "test-10-pcp", "test-11-pcp", "test-12-pcp", "test-13-pcp", "test-14-pcp", "test-15-pcp", "test-16-pcp", "test-17-pcp", "test-18-pcp", "test-19-pcp", "test-20-pcp", "test-21-pcp", "test-22-pcp", "test-23-pcp", "test-24-pcp", "test-25-pcp", "test-26-pcp", "test-27-pcp", "test-28-pcp", "test-29-pcp", "test-30-pcp", "test-31-pcp", "test-32-pcp", "test-33-pcp", "test-34-pcp", "test-35-pcp", "test-36-pcp", "test-37-pcp", "test-38-pcp", "test-39-pcp", "test-40-pcp", "test-41-pcp", "test-42-pcp", "test-43-pcp", "test-44-pcp", "test-45-pcp", "test-46-pcp", "test-47-pcp", "test-48-pcp", "test-49-pcp", "test-50-pcp", "test-51-pcp", "test-52-pcp", "test-53-pcp", "test-54-pcp", "test-55-pcp", "test-56-pcp", "test-57-pcp", "test-58-pcp", "test-59-pcp", "test-60-pcp", "test-61-pcp", "test-62-pcp", "test-63-pcp", "test-64-pcp", "test-65-pcp"]
+                "components": ["test-1-pcp", "test-2-pcp", "test-3-pcp", "test-4-pcp", "test-5-pcp", "test-6-pcp", "test-7-pcp", "test-8-pcp", "test-9-pcp", "test-10-pcp", "test-11-pcp", "test-12-pcp", "test-13-pcp", "test-14-pcp", "test-15-pcp", "test-16-pcp", "test-17-pcp", "test-18-pcp", "test-19-pcp", "test-20-pcp", "test-21-pcp", "test-22-pcp", "test-23-pcp", "test-24-pcp", "test-25-pcp", "test-26-pcp", "test-27-pcp", "test-28-pcp", "test-29-pcp", "test-30-pcp", "test-31-pcp", "test-32-pcp", "test-33-pcp", "test-34-pcp", "test-35-pcp", "test-36-pcp", "test-37-pcp", "test-38-pcp", "test-39-pcp", "test-40-pcp", "test-41-pcp", "test-42-pcp", "test-43-pcp", "test-44-pcp", "test-45-pcp", "test-46-pcp", "test-47-pcp", "test-48-pcp", "test-49-pcp", "test-50-pcp", "test-51-pcp", "test-52-pcp", "test-53-pcp", "test-54-pcp", "test-55-pcp", "test-56-pcp", "test-57-pcp", "test-58-pcp", "test-59-pcp", "test-60-pcp", "test-61-pcp", "test-62-pcp", "test-63-pcp", "test-64-pcp", "test-65-pcp"],
+                "interruptions": [
+                    {"spacing": "random", "numInterruptions": 1, "components": ["attnCheck-1-pcp"]},
+                    {"spacing": "random", "numInterruptions": 1, "components": ["attnCheck-2-pcp"]},
+                    {"spacing": "random", "numInterruptions": 1, "components": ["attnCheck-3-pcp"]},
+                    {"spacing": "random", "numInterruptions": 1, "components": ["attnCheck-4-pcp"]},
+                    {"spacing": "random", "numInterruptions": 1, "components": ["attnCheck-5-pcp"]}
+                ]
             }, {
                 "id": "scatter",
                 "order": "random",
                 "conditional": true,
-                "components": ["test-1-scatter", "test-2-scatter", "test-3-scatter", "test-4-scatter", "test-5-scatter", "test-6-scatter", "test-7-scatter", "test-8-scatter", "test-9-scatter", "test-10-scatter", "test-11-scatter", "test-12-scatter", "test-13-scatter", "test-14-scatter", "test-15-scatter", "test-16-scatter", "test-17-scatter", "test-18-scatter", "test-19-scatter", "test-20-scatter", "test-21-scatter", "test-22-scatter", "test-23-scatter", "test-24-scatter", "test-25-scatter", "test-26-scatter", "test-27-scatter", "test-28-scatter", "test-29-scatter", "test-30-scatter", "test-31-scatter", "test-32-scatter", "test-33-scatter", "test-34-scatter", "test-35-scatter", "test-36-scatter", "test-37-scatter", "test-38-scatter", "test-39-scatter", "test-40-scatter", "test-41-scatter", "test-42-scatter", "test-43-scatter", "test-44-scatter", "test-45-scatter", "test-46-scatter", "test-47-scatter", "test-48-scatter", "test-49-scatter", "test-50-scatter", "test-51-scatter", "test-52-scatter", "test-53-scatter", "test-54-scatter", "test-55-scatter", "test-56-scatter", "test-57-scatter", "test-58-scatter", "test-59-scatter", "test-60-scatter", "test-61-scatter", "test-62-scatter", "test-63-scatter", "test-64-scatter", "test-65-scatter"]
+                "components": ["test-1-scatter", "test-2-scatter", "test-3-scatter", "test-4-scatter", "test-5-scatter", "test-6-scatter", "test-7-scatter", "test-8-scatter", "test-9-scatter", "test-10-scatter", "test-11-scatter", "test-12-scatter", "test-13-scatter", "test-14-scatter", "test-15-scatter", "test-16-scatter", "test-17-scatter", "test-18-scatter", "test-19-scatter", "test-20-scatter", "test-21-scatter", "test-22-scatter", "test-23-scatter", "test-24-scatter", "test-25-scatter", "test-26-scatter", "test-27-scatter", "test-28-scatter", "test-29-scatter", "test-30-scatter", "test-31-scatter", "test-32-scatter", "test-33-scatter", "test-34-scatter", "test-35-scatter", "test-36-scatter", "test-37-scatter", "test-38-scatter", "test-39-scatter", "test-40-scatter", "test-41-scatter", "test-42-scatter", "test-43-scatter", "test-44-scatter", "test-45-scatter", "test-46-scatter", "test-47-scatter", "test-48-scatter", "test-49-scatter", "test-50-scatter", "test-51-scatter", "test-52-scatter", "test-53-scatter", "test-54-scatter", "test-55-scatter", "test-56-scatter", "test-57-scatter", "test-58-scatter", "test-59-scatter", "test-60-scatter", "test-61-scatter", "test-62-scatter", "test-63-scatter", "test-64-scatter", "test-65-scatter"],
+                "interruptions": [
+                    {"spacing": "random", "numInterruptions": 1, "components": ["attnCheck-1-scatter"]},
+                    {"spacing": "random", "numInterruptions": 1, "components": ["attnCheck-2-scatter"]},
+                    {"spacing": "random", "numInterruptions": 1, "components": ["attnCheck-3-scatter"]},
+                    {"spacing": "random", "numInterruptions": 1, "components": ["attnCheck-4-scatter"]},
+                    {"spacing": "random", "numInterruptions": 1, "components": ["attnCheck-5-scatter"]}
+                ]
             }, {
                 "id": "base",
                 "conditional": true,
