@@ -6,9 +6,9 @@ import Result from './responseFeedback';
 import { StimulusParams } from '../../../store/types';
 import { useNextStep } from '../../../store/hooks/useNextStep';
 
-export default function PracticeScatter({setAnswer, answers, parameters}: StimulusParams<{ r1: number; r2: number, vis: string, index: number}>) {
+export default function PracticeScatter({setAnswer, answers, parameters}: StimulusParams<{ taskid: string, r1: number; r2: number, vis: string, index: number}>) {
     const [result, setResult] = useState<string | null>(null);
-    const {r1, r2, vis, index} = parameters;
+    const {taskid, r1, r2, vis, index} = parameters;
 
     const r = useMemo(() => {
         return (Math.random() < 0.5 ? [r1, r2] : [r2, r1]); // randomly shuffle r1 or r2 is on the left;
@@ -16,10 +16,22 @@ export default function PracticeScatter({setAnswer, answers, parameters}: Stimul
     const rr1 = r[0];
     const rr2 = r[1];
 
+    console.log(taskid, index);
+
     const shouldNegate = false;
     const correlationDirection = "positive";
-    const r1DatasetName = `test/dataset_${rr1}_size_100.csv`;
-    const r2DatasetName = `test/dataset_${rr2}_size_100.csv`;
+
+    let r1DatasetName, r2DatasetName;
+
+    if (taskid == "attention") {
+        r1DatasetName = `attention/dataset_${rr1}-${index - 65}_size_100.csv`;
+        r2DatasetName = `attention/dataset_${rr2}-${index - 65}_size_100.csv`;
+    } else {
+        r1DatasetName = `test/dataset_${rr1}_size_100.csv`;
+        r2DatasetName = `test/dataset_${rr2}_size_100.csv`;
+    }
+
+    console.log(r1DatasetName, r2DatasetName)
 
     const buttonARef = useRef<HTMLButtonElement | null>(null);
     const buttonBRef = useRef<HTMLButtonElement | null>(null);
